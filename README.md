@@ -26,7 +26,7 @@ uv add pyproject.toml
 ### **3️⃣ Start the Server**
 
 ``` sh
-uvicorn app.main:app --reload
+uvicorn app:app --reload
 ```
 
 API is now available at **http://127.0.0.1:8000** 🚀
