@@ -56,4 +56,4 @@ def get_borrowed_books(
     ).all()
     if not borrowed_books:
         raise HTTPException(status_code=404, detail="No borrowed books found")
-    return borrow_book
+    return borrowed_books
