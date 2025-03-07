@@ -50,7 +50,7 @@ def add_book(book: BookCreate, db: Session = Depends(get_db)):
     existing_book = db.query(Book).filter(Book.isbn == book.isbn).first()
     if existing_book:
         return {"message": "Book already exists in the database."}
-    db_book = Book(**book.dict(), available_copies=book.copies)
+    db_book = Book(**book.model_dump, available_copies=book.copies)
     db.add(db_book)
     db.commit()
     return {"message": "Book added successfully"}
