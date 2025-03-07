@@ -110,8 +110,8 @@ Interactive API Docs are available at:
 ## 🏗 Future Improvements
 
 - 📌 Implement **email notifications** for overdue books
-- 📌 Add **fine calculation** for late returns
 - 📌 Develop a **frontend** for better user experience
+- 📌 Add **Book Recommendation** algorithm from past book borrowed
 
 ---
 
