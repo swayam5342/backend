@@ -12,15 +12,16 @@ A modern library management system built using **`FastAPI`** with authentication
 
 ### **1️⃣ Clone the Repository** 
 ```sh 
-https://github.com/swayam5342/backend
-cd smart-library
+git clone https://github.com/swayam5342/backend
+cd backend
 ```
 ### **2️⃣ Install Dependencies**
 
-Ensure you have **Python 3.12 installed.
+Ensure you have Python 3.12 installed.
 
 ```
-pip install -r requirements.txt
+pip install uv
+uv add pyproject.toml
 ```
 ### **3️⃣ Start the Server**
 
