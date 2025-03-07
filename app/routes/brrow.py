@@ -26,11 +26,11 @@ def borrow_book(book_id: int,current_user: User = Depends(get_current_user),db: 
     return {"message": f"Book '{book.title}' borrowed successfully!"}
 
 
-@borrow_router.post("/return/{book_id}/{user_id}")
-def return_book(book_id: int, user_id: int, db: Session = Depends(get_db),):
+@borrow_router.post("/return/{book_id}")
+def return_book(book_id: int,db: Session = Depends(get_db),current_user: User = Depends(get_current_user)):
     borrowed = db.query(BorrowedBooks).filter(
         BorrowedBooks.book_id == book_id,
-        BorrowedBooks.user_id == user_id,
+        BorrowedBooks.user_id == current_user.id,
         BorrowedBooks.is_returned == False
     ).first()
     if not borrowed:
@@ -44,3 +44,16 @@ def return_book(book_id: int, user_id: int, db: Session = Depends(get_db),):
     book.available_copies += 1#type:ignore
     db.commit()
     return {"message": "Book returned successfully!", "fine": borrowed.fine}
+
+
+@borrow_router.get("/borrowed", dependencies=[Depends(require_role("student"))])
+def get_borrowed_books(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    borrowed_books = db.query(BorrowedBooks).filter(
+        BorrowedBooks.user_id == current_user.id
+    ).all()
+    if not borrowed_books:
+        raise HTTPException(status_code=404, detail="No borrowed books found")
+    return borrow_book

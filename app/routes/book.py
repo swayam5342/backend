@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.model.book import Book
-from app.service.auth import require_role
+from app.service.auth import require_role,get_current_user
+from app.model.user import User
 from app.schema.book import BookCreate
 from typing import List, Optional
 
@@ -44,12 +45,16 @@ def search_books(
     return results
 
 
-@book_router.post("/books/", dependencies=[Depends(require_role("librarian"))])
+@book_router.post("/books", dependencies=[Depends(require_role("librarian"))])
 def add_book(book: BookCreate, db: Session = Depends(get_db)):
+    existing_book = db.query(Book).filter(Book.isbn == book.isbn).first()
+    if existing_book:
+        return {"message": "Book already exists in the database."}
     db_book = Book(**book.dict(), available_copies=book.copies)
     db.add(db_book)
     db.commit()
     return {"message": "Book added successfully"}
+
 
 @book_router.delete("/books/{book_id}", dependencies=[Depends(require_role("librarian"))])
 def delete_book(book_id: int, db: Session = Depends(get_db)):
