@@ -12,7 +12,8 @@ A modern library management system built using **`FastAPI`** with authentication
 
 ### **1️⃣ Clone the Repository** 
 ```sh 
-git clone https://github.com/yourusername/smart-library.git cd smart-library
+https://github.com/swayam5342/backend
+cd smart-library
 ```
 ### **2️⃣ Install Dependencies**
 
